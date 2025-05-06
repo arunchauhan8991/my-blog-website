@@ -1,0 +1,37 @@
+<%- include('partials/header') %>
+
+<section class="hero">
+  <h2>Welcome to My Blog</h2>
+  <p>Explore posts or create new ones!</p>
+</section>
+
+<section class="posts">
+  <h2>Latest Posts</h2>
+  
+  <% if (posts.length === 0) { %>
+    <div class="empty-state">
+      <p>No posts yet. Be the first to <a href="/posts/new">create a post</a>!</p>
+    </div>
+  <% } else { %>
+    <div class="post-grid">
+      <% posts.forEach(post => { %>
+        <article class="post-card">
+          <h3><%= post.title %></h3>
+          <div class="post-date">
+            <%= post.createdAt.toLocaleDateString() %> at <%= post.createdAt.toLocaleTimeString() %>
+          </div>
+          <p class="post-excerpt"><%= post.content.substring(0, 100) %>...</p>
+          <div class="post-actions">
+            <a href="/posts/<%= post.id %>" class="btn btn-primary">Read More</a>
+            <a href="/posts/<%= post.id %>/edit" class="btn btn-secondary">Edit</a>
+            <form action="/posts/<%= post.id %>?_method=DELETE" method="POST" class="inline-form">
+              <button type="submit" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this post?')">Delete</button>
+            </form>
+          </div>
+        </article>
+      <% }); %>
+    </div>
+  <% } %>
+</section>
+
+<%- include('partials/footer') %>
